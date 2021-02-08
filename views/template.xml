@@ -1,0 +1,6 @@
+<odoo>
+    <!--<template id="custom_recently_view" inherit_id="website_sale.s_products_recently_viewed" name="custom recently view">
+        <xpath expr="//section[hasclass('s_wsale_products_recently_viewed')]" position="replace">
+        </xpath>
+    </template>-->
+</odoo>

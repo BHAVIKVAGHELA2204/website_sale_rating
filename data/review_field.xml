@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="website_sale_rating.model_review_rating" model="ir.model">
+            <field name="website_form_access">True</field>
+        </record>
+        <function model="ir.model.fields" name="formbuilder_whitelist">
+            <value>review.rating</value>
+            <value eval="[
+                'subject',
+                'review',
+                'rating',
+                'product_id',
+                'user_id',
+            ]"/>
+        </function>
+    </data>
+</odoo>

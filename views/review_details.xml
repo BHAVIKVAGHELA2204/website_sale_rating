@@ -1,0 +1,71 @@
+<odoo>
+    <data>
+        <!-- Tree View -->
+        <record id="review_tree_view" model="ir.ui.view">
+            <field name="name">review.tree.view</field>
+            <field name="model">review.rating</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="active" widget="boolean_toggle" options='{"terminology": "archive"}' invisible="1"/>
+                    <field name="subject"/>
+                    <field name="review"/>
+                </tree>
+            </field>
+        </record>
+        <!-- Search View-->
+        <record id="review_search_view" model="ir.ui.view">
+            <field name="name">review.search.view</field>
+            <field name="model">review.rating</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="product_id"/>
+                    <field name="rating"/>
+                    <group name="group_by" string="Group By">
+                        <filter string="Product" name="product_id" domain="[]" help="Product"
+                                context="{'group_by':'product_id'}"/>
+                        <filter string="Rating" name="rating" domain="[]" help="Rating"
+                                context="{'group_by':'rating'}"/>
+                        <filter string="Reviewed Date" name="reviewed_date" domain="[]" help="Reviewed Date"
+                                context="{'group_by':'reviewed_date'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+        <!-- Form View -->
+        <record id="review_form_view" model="ir.ui.view">
+            <field name="name">review.form.view</field>
+            <field name="model">review.rating</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group string="Review Information">
+                            <group>
+                                <field name="active" widget="boolean_toggle"
+                                       options='{"terminology": "archive"}'/>
+                                <field name="review" required="True"/>
+                                <field name="rating" readonly="True"/>
+                            </group>
+                            <group>
+                                <field name="user_id" readonly="True"/>
+                                <field name="product_id" readonly="True"/>
+                                <field name="reviewed_date" readonly="True"/>
+                                <field name="get_reviewed_days" readonly="True"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <!-- Menu -->
+        <record id="action_doc_review" model="ir.actions.act_window">
+            <field name="name">Review Details</field>
+            <field name="res_model">review.rating</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <menuitem id="review_root_menu" name="Review" sequence="1"/>
+        <menuitem id="review_details" name="Review" action="action_doc_review"
+                  parent="review_root_menu"
+                  sequence="2"/>
+        <!--  End Menu  -->
+    </data>
+</odoo>

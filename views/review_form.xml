@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <template id="review_rating_page">
+        <t t-call="website.layout">
+            <div id="wrap" class="oe_structure oe_empty">
+                <div class="container">
+                    <div class="row mt-2" style="margin:0;">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">
+                                <a href="/shop">Products</a>
+                            </li>
+                            <li t-if="product_id" class="breadcrumb-item">
+                                <a t-att-href="'/shop/product/%s' % (product_id.product_tmpl_id.id)">
+                                    <span t-field="product_id.name"/>
+                                </a>
+                            </li>
+                            <li class="breadcrumb-item active">
+                                <span>Submit You Review</span>
+                            </li>
+                        </ol>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-8">
+                            <form class="s_website_form container-fluid mt-2" action="/website_form/"
+                                  method="post" data-model_name="review.rating" enctype="multipart/form-data"
+                                  data-success_page="/contactus-thank-you" data-editable-form="false">
+                                <td width="100%">
+                                    <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                    <!-- Subject -->
+                                    <input type="hidden" t-att-value="user_id.id" name="user_id" id="user_id"/>
+                                    <input type="hidden" t-att-value="product_id.id" name="product_id" id="product_id"/>
+                                    <div class="form-group form-field o_website_form_custom">
+                                        <label class="col-md-3 control-label" for="name">Subject</label>
+                                        <div class="col-md-12">
+                                            <input id="subject" name="subject" type="text"
+                                                   placeholder="Your Subject"
+                                                   class="form-control o_website_form_input" required=""/>
+                                        </div>
+                                    </div>
+                                    <!-- Reviews -->
+                                    <div class="form-group form-field o_website_form_custom">
+                                        <label class="col-md-3 control-label" for="review">Your Review
+                                        </label>
+                                        <div class="col-md-12">
+                                            <textarea class="form-control o_website_form_input" id="review"
+                                                      name="review"
+                                                      placeholder="Please enter your Review here..."
+                                                      rows="5" required=""></textarea>
+                                        </div>
+                                    </div>
+                                    <!-- Rating -->
+                                    <div class="form-group form-field">
+                                        <label class="col-md-3 control-label" for="message">Your rating
+                                        </label>
+                                        <div class="col-md-12">
+                                            <div class="starss">
+                                                <input id="input-21e" value="0" type="text" class="rating" data-min="0"
+                                                       data-max="5" data-step="1" data-size="xs" title=""/>
+                                                <input type="hidden" id="stars_click_input" name="rating" value="0"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <hr/>
+                                    <div class="form-group row">
+                                        <div class="offset-lg-5 offset-md-2 col-md-8 col-lg-2">
+                                            <a href="#" role="button"
+                                               class="btn btn-primary btn-lg o_website_form_send">
+                                                Submit
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <span id="o_website_form_result"></span>
+                                </td>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+</odoo>

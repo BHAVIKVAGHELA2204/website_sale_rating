@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <template id="avrage_block_and_button">
+            <div class="col-md-6 col-xl-3">
+                <div class="rating-block text-center">
+                    <hr/>
+                    <h4>Average user rating</h4>
+                    <h2 class="bold padding-bottom-7">
+                        <span>
+                            <t t-esc="product.avg_review"/>
+                        </span>
+                        <small>/ 5</small>
+                    </h2>
+                    <div class="">
+                        <a role="button" id="add_product_rating"
+                           class="btn btn-primary btn-lg mt16"
+                           href="#">
+                            <i class="fa fa-star-half-o"/>
+                            Add Rating
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </template>
+
+        <template id="rating_progress_bar">
+            <div class="col-md-6 col-xl-3">
+                <div class="rating-block">
+                    <hr/>
+                    <h4>Rating breakdown</h4>
+                    <t t-set="num" t-value="5"/>
+                    <t t-foreach='product.get_ratings()'
+                       t-as='rating'>
+                        <a t-att-href="'/individual-rating/%s' %(num)">
+                            <div class="pull-left">
+                                <div class="pull-left" style="width:35px; line-height:1;">
+                                    <div style="height:9px; margin:5px 0;">
+                                        <span t-esc="num"/>
+                                        <span class="fa fa-star"></span>
+                                    </div>
+                                </div>
+                                <div class="pull-left pull_click" style="width:180px;">
+                                    <div class="progress" style="height:9px; margin:8px 0;">
+                                        <div t-att-class="rating.get('class')" role="progressbar"
+                                             aria-valuenow="5" aria-valuemin="0" aria-valuemax="5"
+                                             t-att-style="rating.get('style')">
+                                            <span class="sr-only">80% Complete (danger)</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="pull-right" style="margin-left:10px;">
+                                    <span t-esc="rating.get('pert') or 0"/>%
+                                </div>
+                            </div>
+                        </a>
+                        <t t-set="num" t-value="num - 1"/>
+                    </t>
+                </div>
+            </div>
+        </template>
+
+        <template id="reviews_and_comment">
+            <div class="col-md-6 col-xl-6">
+                <t t-foreach="reviews" t-as="review">
+                    <hr/>
+                    <div class="review-block">
+                        <div class="row">
+                            <div class="col-sm-8">
+                                <div class="review-block-rate">
+                                    <t t-if="review.rating == 1.0">
+                                        <span class="badge badge-danger">
+                                            <span t-esc="review.rating"/>
+                                            <span class="fa fa-star"
+                                                  style="font-size: 12px; margin-left: 2px;"></span>
+                                        </span>
+                                        <span class="ml-1" t-esc="review.subject"
+                                              style="font-weight: 600;"/>
+                                    </t>
+                                    <t t-if="review.rating == 2.0">
+                                        <span class="badge badge-warning">
+                                            <span t-esc="review.rating"/>
+                                            <span class="fa fa-star"
+                                                  style="font-size: 12px; margin-left: 2px;"></span>
+                                        </span>
+                                        <span class="ml-1" t-esc="review.subject"
+                                              style="font-weight: 600;"/>
+                                    </t>
+                                    <t t-if="review.rating == 3.0">
+                                        <span class="badge badge-info">
+                                            <span t-esc="review.rating"/>
+                                            <span class="fa fa-star"
+                                                  style="font-size: 12px; margin-left: 2px;"></span>
+                                        </span>
+                                        <span class="ml-1" t-esc="review.subject"
+                                              style="font-weight: 600;"/>
+                                    </t>
+                                    <t t-if="review.rating == 4.0">
+                                        <span class="badge badge-primary">
+                                            <span t-esc="review.rating"/>
+                                            <span class="fa fa-star"
+                                                  style="font-size: 12px; margin-left: 2px;"></span>
+                                        </span>
+                                        <span class="ml-1" t-esc="review.subject"
+                                              style="font-weight: 600;"/>
+                                    </t>
+                                    <t t-if="review.rating == 5.0">
+                                        <span class="badge badge-success">
+                                            <span t-esc="review.rating"/>
+                                            <span class="fa fa-star"
+                                                  style="font-size: 12px; margin-left: 2px;"></span>
+                                        </span>
+                                        <span class="ml-1" t-esc="review.subject"
+                                              style="font-weight: 600;"/>
+                                    </t>
+                                </div>
+                                <div class="review-block-description mt-1">
+                                    <span t-esc="review.review"/>
+                                </div>
+                                <div class="review-block-name mt-1">
+                                    <span t-esc="review.user_id.name"
+                                          style="font-size: 12px; color: #878787; font-weight: 500;"/>
+                                    <span class="ml-1" t-esc="review.get_reviewed_days"
+                                          style="font-size: 12px; color: #878787; "/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </t>
+            </div>
+        </template>
+
+        <template id="th_products_review" inherit_id="website_sale.product" name="th rating">
+            <xpath expr="//div[@id='product_details']" position="after">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <nav>
+                                <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                                    <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab"
+                                       href="#nav-home"
+                                       role="tab" aria-controls="nav-home" aria-selected="true">Description
+                                    </a>
+                                    <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab"
+                                       href="#nav-profile"
+                                       role="tab" aria-controls="nav-profile" aria-selected="false">Review
+                                        <span class="badge badge-primary">
+                                            <t t-esc="product.avg_review"
+                                               t-if="product"/>
+                                            <span class="fa fa-star"
+                                                  style="font-size: 12px; margin-left: 2px;"></span>
+                                        </span>
+                                    </a>
+                                    <a class="nav-item nav-link"
+                                       t-att-href="'/individual-rating-test/'">test
+                                    </a>
+                                </div>
+                                <div class="tab-content" id="nav-tabContent">
+                                    <div class="tab-pane fade show active" id="nav-home" role="tabpanel"
+                                         aria-labelledby="nav-home-tab">
+                                    </div>
+                                    <div class="tab-pane fade" id="nav-profile" role="tabpanel"
+                                         aria-labelledby="nav-profile-tab">
+                                        <div class="row">
+                                            <t t-call="website_sale_rating.avrage_block_and_button"/>
+                                            <t t-call="website_sale_rating.rating_progress_bar"/>
+                                        </div>
+                                        <t t-call="website_sale_rating.reviews_and_comment"/>
+                                    </div>
+                                </div>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </xpath>
+        </template>
+    </data>
+</odoo>
